@@ -1,0 +1,3 @@
+[submodule "primme"]
+	path = primme
+	url = https://github.com/primme/primme.git

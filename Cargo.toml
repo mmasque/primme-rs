@@ -1,0 +1,21 @@
+[package]
+name = "primme"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+libc = "0.2.174"
+nalgebra = "0.33.2"
+nalgebra-sparse = "0.10.0"
+rand = "0.9.1"
+
+[dev-dependencies]
+criterion = "0.6.0"
+
+[build-dependencies]
+bindgen = "0.72"
+
+[[bench]]
+name = "benchmark_smallest_eigenvalues"
+path = "benches/smallest_eigenvalues.rs"
+harness = false
