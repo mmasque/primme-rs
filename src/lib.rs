@@ -8,10 +8,10 @@ use nalgebra_sparse::{CsrMatrix, na::DVector};
 
 unsafe extern "C" fn matvec_callback(
     x: *mut c_void,
-    id_x: *mut i64,
+    _id_x: *mut i64,
     y: *mut c_void,
-    id_y: *mut i64,
-    block_size: *mut i32,
+    _id_y: *mut i64,
+    _block_size: *mut i32,
     primme: *mut primme_params,
     ierr: *mut i32,
 ) {
@@ -58,6 +58,12 @@ pub fn smallest_nonzero_eigenvalues(
     primme.numTargetShifts = 1 as i32;
     primme.matrixMatvec = Some(matvec_callback);
     primme.maxMatvecs = n * n as i64;
+    primme.eps = 1e-4 as f64;
+    let ret_method =
+        unsafe { primme_set_method(primme_preset_method_PRIMME_DEFAULT_MIN_TIME, &mut primme) };
+    if ret_method != 0 {
+        return Err(ret_method);
+    }
 
     let ret = unsafe {
         dprimme(
@@ -74,9 +80,8 @@ pub fn smallest_nonzero_eigenvalues(
 #[cfg(test)]
 mod tests {
     use super::*;
-    use nalgebra::{DMatrix, SymmetricEigen};
     use nalgebra_sparse::{CooMatrix, CsrMatrix};
-    use rand::{Rng, SeedableRng, rngs::StdRng};
+    use rand::{SeedableRng, rngs::StdRng};
     #[test]
     fn test_smallest_eigenvalues_2x2() {
         // Matrix: [2.0, 0.0]
