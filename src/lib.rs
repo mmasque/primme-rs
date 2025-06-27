@@ -58,7 +58,7 @@ pub fn smallest_nonzero_eigenvalues(
     primme.numTargetShifts = 1 as i32;
     primme.matrixMatvec = Some(matvec_callback);
     primme.maxMatvecs = n * n as i64;
-    primme.eps = 1e-4 as f64;
+    primme.eps = above_zero * 1e-4 as f64;
     let ret_method =
         unsafe { primme_set_method(primme_preset_method_PRIMME_DEFAULT_MIN_TIME, &mut primme) };
     if ret_method != 0 {
