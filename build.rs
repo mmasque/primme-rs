@@ -1,5 +1,5 @@
 use std::env;
-use std::path::{Path, PathBuf};
+use std::path::PathBuf;
 
 fn main() {
     let libdir_path = PathBuf::from("primme")
@@ -41,8 +41,9 @@ fn main() {
     // automatically know it must look for a `libhello.a` file.
     println!("cargo:rustc-link-lib=primme");
 
-    #[cfg(target_os = "macos")]
-    println!("cargo:rustc-link-lib=framework=Accelerate");
+    if cfg!(target_os = "macos") {
+        println!("cargo:rustc-link-lib=framework=Accelerate");
+    }
     // Generate bindings
     // The bindgen::Builder is the main entry point
     // to bindgen, and lets you build up options for
