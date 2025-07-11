@@ -38,7 +38,7 @@ fn benchmark_smallest_eigenvalues(c: &mut Criterion) {
                 || generate_random_symmetric_matrix(n, d),
                 |matrix| {
                     if let Err(e) =
-                        std::hint::black_box(smallest_nonzero_eigenvalues(&matrix, 5, 1e-6))
+                        std::hint::black_box(smallest_nonzero_eigenvalues(&matrix, 1, 1e-4))
                     {
                         println!("Error in computing eigenvalues: {e}")
                     }
